@@ -7,7 +7,7 @@ const refs = {
   closeBtn: document.querySelector('.js-button'),
 };
 
-const createGallery = ({ preview, original, description }, idx) =>
+const createGalleryItem = ({ preview, original, description }, idx) =>
   refs.gallery.insertAdjacentHTML(
     'beforeend',
     `<li class="gallery__item">
@@ -27,7 +27,20 @@ const createGallery = ({ preview, original, description }, idx) =>
     </li>`,
   );
 
-gallery.map((image, idx) => createGallery(image, idx));
+const makeGallery = value => {
+  const galleryShaker = value.map((image, idx) =>
+    createGalleryItem(image, idx),
+  );
+  refs.gallery.append(...galleryShaker);
+};
+makeGallery(gallery);
+
+// refs.gallery.append(...createGalleryItem());
+
+// gallery.map((image, idx) => createGalleryItem(image, idx));
+
+// const makeGallery = gallery.map((image, idx) => createGalleryItem(image, idx));
+// refs.gallery.append(...makeGallery);
 
 let imageIndex;
 
