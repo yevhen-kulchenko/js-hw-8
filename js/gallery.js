@@ -7,25 +7,26 @@ const refs = {
   closeBtn: document.querySelector('.js-button'),
 };
 
-const createGalleryItem = ({ preview, original, description }, idx) =>
-  refs.gallery.insertAdjacentHTML(
-    'beforeend',
-    `<li class="gallery__item">
-    <a
-        class="gallery__link"
-        href=${original}
-        >
-        <img
-            class="gallery__image"
-            src=${preview}
-            data-source=${original}
-            alt='${description}'
-            data-index=${idx}
+const createGalleryItem = ({ preview, original, description }, idx) => {
+  const galleryList = document.createElement('li');
+  const galleryLink = document.createElement('a');
+  const galleryImage = document.createElement('img');
 
-        />
-    </a>
-    </li>`,
-  );
+  galleryList.classList.add('gallery__item');
+  galleryLink.classList.add('gallery__link');
+  galleryImage.classList.add('gallery__image');
+
+  galleryImage.src = preview;
+  galleryImage.dataset.source = original;
+  galleryImage.alt = description;
+  galleryImage.dataset.index = idx;
+
+  galleryLink.appendChild(galleryImage);
+  galleryList.appendChild(galleryLink);
+  refs.gallery.appendChild(galleryList);
+
+  return galleryList;
+};
 
 const makeGallery = value => {
   const galleryShaker = value.map((image, idx) =>
@@ -34,13 +35,6 @@ const makeGallery = value => {
   refs.gallery.append(...galleryShaker);
 };
 makeGallery(gallery);
-
-// refs.gallery.append(...createGalleryItem());
-
-// gallery.map((image, idx) => createGalleryItem(image, idx));
-
-// const makeGallery = gallery.map((image, idx) => createGalleryItem(image, idx));
-// refs.gallery.append(...makeGallery);
 
 let imageIndex;
 
@@ -108,3 +102,27 @@ function handelPressRight(event) {
 refs.gallery.addEventListener('click', handelGalleryClick);
 refs.closeBtn.addEventListener('click', handelModalClose);
 refs.lightBox.addEventListener('click', handelBackdropClick);
+
+// ===========================================================
+
+// const createGalleryItem = ({ preview, original, description }, idx) =>
+//   refs.gallery.insertAdjacentHTML(
+//     'beforeend',
+//     `<li class="gallery__item">
+//     <a
+//         class="gallery__link"
+//         href=${original}
+//         >
+//         <img
+//             class="gallery__image"
+//             src=${preview}
+//             data-source=${original}
+//             alt='${description}'
+//             data-index=${idx}
+
+//         />
+//     </a>
+//     </li>`,
+//   );
+
+// gallery.map((image, idx) => createGalleryItem(image, idx));
